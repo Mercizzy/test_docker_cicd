@@ -35,8 +35,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DOCKERHOST: bambupuer/
-      CURRENT_BRANCH: $GITHUB_REF
-      TAG: $CURRENT_BRANCH:$GITHUB_SHA
+      CURRENT_BRANCH: ${{github.ref}}
+      TAG: $CURRENT_BRANCH:${{github.sha}}
     steps:
       - name: down file for docker
         uses: actions/download-artifact@v3
