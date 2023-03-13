@@ -1,0 +1,47 @@
+name: CICD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: generate .next
+        run: |
+          echo 'yarn-offline-mirror ".yarn-cache/"' >> .yarnrc
+          echo 'yarn-offline-mirror-pruning true' >> .yarnrc
+          yarn install --frozen-lockfile --no-progress
+          yarn build
+      - name: artifact .next public
+        uses: actions/upload-artifact@v3
+        with:
+          name: file_for_docker
+          path: |
+            .next
+            public
+          retention-days: 7
+
+  docker-push:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      DOCKERHOST: bambupuer/
+      CURRENT_BRANCH: $GITHUB_REF#refs
+      TAG: $CURRENT_BRANCH:$GITHUB_SHA
+    steps:
+      - name: down file for docker
+        uses: actions/down-artifact@v3
+        with:
+          name: file_for_docker
+      - name: login docker hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{secrets.DOCKERHUB_NAME}}
+          password: ${{secrets.DOCKERHUB_PASSWORD}}
+      - name: build docker and push
+        run: |
+          docker build -t $TAG
+          docker push $DOCKERHOST $TAG
