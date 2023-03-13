@@ -48,5 +48,6 @@ jobs:
       - name: build docker and push
         run: |
           export TAG=${{github.ref}}:${{github.sha}}
+          cd ../../
           docker build -t $TAG .
           docker push $DOCKERHOST $TAG
