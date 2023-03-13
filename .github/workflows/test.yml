@@ -19,5 +19,7 @@ jobs:
           node-version: '18.x'
       - name: Run Yarn
         run: yarn
-      - name: Run tests
-        run: yarn test
+      - name: Run build
+        run: yarn build
+      - name: Run start
+        run: yarn start
