@@ -49,7 +49,6 @@ jobs:
           password: ${{secrets.DOCKERHUB_PASSWORD}}
       - name: build docker and push
         run: |
-          ls -la
           export TAG=${{github.sha}}
           docker build -t $TAG .
-          docker push $DOCKERHOST:$TAG
+          docker push docker.io/$DOCKERHOST:$TAG
