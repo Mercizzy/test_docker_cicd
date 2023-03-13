@@ -39,7 +39,7 @@ jobs:
       TAG: $CURRENT_BRANCH:$GITHUB_SHA
     steps:
       - name: down file for docker
-        uses: actions/down-artifact@v3
+        uses: actions/download-artifact@v3
         with:
           name: file_for_docker
       - name: login docker hub
