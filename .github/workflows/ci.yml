@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DOCKERHOST: bambupuer/
-      CURRENT_BRANCH: $GITHUB_REF#refs
+      CURRENT_BRANCH: $GITHUB_REF
       TAG: $CURRENT_BRANCH:$GITHUB_SHA
     steps:
       - name: down file for docker
