@@ -45,9 +45,10 @@ jobs:
         with:
           username: ${{secrets.DOCKERHUB_NAME}}
           password: ${{secrets.DOCKERHUB_PASSWORD}}
+      - name: Checkout docker
+        uses: actions/checkout@v3
       - name: build docker and push
         run: |
           export TAG=${{github.ref}}:${{github.sha}}
-          cd ../../
           docker build -t $TAG .
           docker push $DOCKERHOST $TAG
