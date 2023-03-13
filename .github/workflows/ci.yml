@@ -34,7 +34,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     env:
-      DOCKERHOST: bambupuer/
+      DOCKERHOST: bambupuer/test-docker
     steps:
       - name: Checkout docker
         uses: actions/checkout@v3
@@ -50,6 +50,6 @@ jobs:
       - name: build docker and push
         run: |
           ls -la
-          export TAG=${{github.ref}}:${{github.sha}}
+          export TAG=${{github.ref}}_${{github.sha}}
           docker build -t $TAG .
-          docker push $DOCKERHOST $TAG
+          docker push $DOCKERHOST:$TAG
