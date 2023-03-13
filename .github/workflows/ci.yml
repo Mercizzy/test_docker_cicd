@@ -50,6 +50,6 @@ jobs:
       - name: build docker and push
         run: |
           ls -la
-          export TAG=${{github.ref}}_${{github.sha}}
+          export TAG=${{github.sha}}
           docker build -t $TAG .
           docker push $DOCKERHOST:$TAG
