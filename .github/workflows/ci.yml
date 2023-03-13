@@ -36,6 +36,8 @@ jobs:
     env:
       DOCKERHOST: bambupuer/
     steps:
+      - name: Checkout docker
+        uses: actions/checkout@v3
       - name: down file for docker
         uses: actions/download-artifact@v3
         with:
@@ -45,10 +47,9 @@ jobs:
         with:
           username: ${{secrets.DOCKERHUB_NAME}}
           password: ${{secrets.DOCKERHUB_PASSWORD}}
-      - name: Checkout docker
-        uses: actions/checkout@v3
       - name: build docker and push
         run: |
+          ls -la
           export TAG=${{github.ref}}:${{github.sha}}
           docker build -t $TAG .
           docker push $DOCKERHOST $TAG
