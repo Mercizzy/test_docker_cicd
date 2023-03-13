@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout respository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Use Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: '18.x'
       - name: generate .next
@@ -49,5 +49,6 @@ jobs:
           password: ${{secrets.DOCKERHUB_PASSWORD}}
       - name: build docker and push
         run: |
+          echo "CURRENT_BRANCH: $CURRENT_BRANCH, tag: $TAG"
           docker build -t $TAG
           docker push $DOCKERHOST $TAG
