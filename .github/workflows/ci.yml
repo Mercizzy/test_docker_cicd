@@ -35,8 +35,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DOCKERHOST: bambupuer/
-      CURRENT_BRANCH: ${{github.ref}}
-      TAG: $CURRENT_BRANCH:${{github.sha}}
     steps:
       - name: down file for docker
         uses: actions/download-artifact@v3
@@ -49,6 +47,6 @@ jobs:
           password: ${{secrets.DOCKERHUB_PASSWORD}}
       - name: build docker and push
         run: |
-          echo "CURRENT_BRANCH: $CURRENT_BRANCH, tag: $TAG"
+          export TAG = ${{github.ref}}:${{github.sha}}
           docker build -t $TAG
           docker push $DOCKERHOST $TAG
