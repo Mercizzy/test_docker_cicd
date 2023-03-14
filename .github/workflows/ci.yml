@@ -15,10 +15,22 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
-      - name: generate .next
+      - name: set yarn cache, delete unnecessary tar file
         run: |
           echo 'yarn-offline-mirror ".yarn-cache/"' >> .yarnrc
           echo 'yarn-offline-mirror-pruning true' >> .yarnrc
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v3
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: generate .next
+        run: |
           yarn install --frozen-lockfile --no-progress
           yarn build
       - name: copy public and static 
