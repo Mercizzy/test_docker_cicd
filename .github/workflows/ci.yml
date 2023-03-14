@@ -37,7 +37,7 @@ jobs:
         run: |
           cp -R public .next/standalone/
           cp -R .next/static .next/standalone/.next/
-      - name: artifact .next public
+      - name: artifact .next 
         uses: actions/upload-artifact@v3
         with:
           name: file_for_docker
@@ -71,6 +71,7 @@ jobs:
           SHA: ${{ steps.short-sha.outputs.sha }}
       - name: build docker and push
         run: |
+          ls -al
           export TAG=${{github.ref_name}}_${{env.SHA}}
           docker build -t $DOCKERHOST:$TAG .
           docker push $DOCKERHOST:$TAG
