@@ -42,7 +42,6 @@ jobs:
         with:
           name: file_for_docker
           path: |
-            public
             .next
           retention-days: 7
 
@@ -58,6 +57,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: file_for_docker
+          path: .next
       - name: login docker hub
         uses: docker/login-action@v2
         with:
