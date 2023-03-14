@@ -21,6 +21,10 @@ jobs:
           echo 'yarn-offline-mirror-pruning true' >> .yarnrc
           yarn install --frozen-lockfile --no-progress
           yarn build
+      - name: copy public and static 
+        run: |
+          cp -R public .next/standalone/
+          cp -R .next/static .next/standalone/.next/
       - name: artifact .next public
         uses: actions/upload-artifact@v3
         with:
